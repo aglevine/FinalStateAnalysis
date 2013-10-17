@@ -125,6 +125,7 @@ if __name__ == "__main__":
             os.getcwd(),
             args.tree,
         ]
+	print farmout_cmd
         subprocess.check_call(farmout_cmd)
 
     # Determine number of files and jobs to process

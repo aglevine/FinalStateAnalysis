@@ -58,7 +58,7 @@ import FinalStateAnalysis.Utilities.TauVarParsing as TauVarParsing
 options = TauVarParsing.TauVarParsing(
     skipEvents=0,  # Start at an event offset (for debugging)
     reportEvery=100,
-    channels='mm',
+    channels='mt',
     rerunMCMatch=False,
     eventView=0,  # Switch between final state view (0) and event view (1)
     passThru=0,  # Turn off preselections

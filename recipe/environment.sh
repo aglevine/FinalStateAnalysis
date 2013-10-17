@@ -48,7 +48,7 @@ if [ -d "$vpython" ]; then
   # See https://github.com/pypa/virtualenv/issues/150
   set +o nounset
   source bin/activate
-  set -o nounset
+  #set -o nounset
   cd -
 fi
 
@@ -65,12 +65,12 @@ fi
 
 
 # Don't require a scram build to get updated scripts
-export PATH=$fsa/Utilities/scripts:$PATH
-export PATH=$fsa/StatTools/scripts:$PATH
-export PATH=$fsa/PlotTools/scripts:$PATH
-export PATH=$fsa/MetaData/scripts:$PATH
-export PATH=$fsa/PatTools/scripts:$PATH
-export PATH=$fsa/RecoTools/scripts:$PATH
+#export PATH=$fsa/Utilities/scripts:$PATH
+#export PATH=$fsa/StatTools/scripts:$PATH
+#export PATH=$fsa/PlotTools/scripts:$PATH
+#export PATH=$fsa/MetaData/scripts:$PATH
+#export PATH=$fsa/PatTools/scripts:$PATH
+#export PATH=$fsa/RecoTools/scripts:$PATH
 
 # Add some shortcuts to example files for testing
 if [ "$MAJOR_VERSION" -eq "4" ]; then

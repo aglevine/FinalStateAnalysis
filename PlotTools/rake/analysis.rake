@@ -4,9 +4,9 @@ desc "Analyze a sample, producing a .root file"
 #rule /^results\/.*\/.*\/.*.root$/ => [ 
 rule ".root" => [ 
   # The analyzer .py file
-  proc {|targ| targ.sub(%r{results/.*/(.*)/.*root}, "\\1.py")},
+  proc {|targ| targ.sub(%r{results/.*/.*/.*/(.*)/.*root}, "\\1.py")},
   # The sample file list .txt file
-  proc {|targ| targ.sub(%r{results/(.*)/.*/(.*).root}, "inputs/\\1/\\2.txt")} ] do |t|
+  proc {|targ| targ.sub(%r{results/(.*)/.*/.*/.*/(.*).root}, "inputs/\\1/\\2.txt")} ] do |t|
   # Make the output directory
   sh "mkdir -p `dirname #{t.name}`"
   # Expose output filename to the analyzer
