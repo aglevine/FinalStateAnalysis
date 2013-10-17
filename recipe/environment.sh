@@ -48,7 +48,6 @@ if [ -d "$vpython" ]; then
   # See https://github.com/pypa/virtualenv/issues/150
   set +o nounset
   source bin/activate
-  #set -o nounset
   cd -
 fi
 
