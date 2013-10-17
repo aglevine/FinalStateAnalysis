@@ -46,7 +46,6 @@ if [ -d "$vpython" ]; then
   export VIRTUAL_ENV_DISABLE_PROMPT=1
   cd $vpython
   # See https://github.com/pypa/virtualenv/issues/150
-  set +o nounset
   source bin/activate
   cd -
 fi
