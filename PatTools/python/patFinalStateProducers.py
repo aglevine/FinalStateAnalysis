@@ -156,10 +156,14 @@ def produce_final_states(process, collections, output_commands,
         cut=cms.string('abs(superCluster().eta()) < 3.0 & pt > 10'),
         filter=cms.bool(False),
     )
-
+   
+    process.tausES = cms.EDProducer(
+	"ESTauProducer",
+	src=cms.InputTag(tausrc))
+    
     process.tausRank = cms.EDProducer(
         "PATTauRanker",
-        src=cms.InputTag(tausrc))
+        src=cms.InputTag("tausES"))
 
     # Require that the PT of the jet (either corrected jet or tau)
     # to be greater than 17
@@ -216,6 +220,7 @@ def produce_final_states(process, collections, output_commands,
         + process.muonsForFinalStates
         + process.electronsRank
         + process.electronsForFinalStates
+	+ process.tausES
         + process.tausRank
         + process.tausForFinalStates
         + process.jetsFiltered
