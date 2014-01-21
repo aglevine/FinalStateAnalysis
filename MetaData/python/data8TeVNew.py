@@ -17,7 +17,7 @@ Author: Evan K. Friis, UW Madison
 from datacommon import square, cube, quad, picobarns, \
         br_w_leptons, br_z_leptons, query_cli
 
-from data8TeV import datadefs as datadefs52
+#from data8TeV import datadefs as datadefs52
 
 from string import Template
 
@@ -37,10 +37,9 @@ except:
 
 # Figure this out later.
 data_name_map = {}
-
 datadefs = {
 
-   'Zjets_M50' : {
+    'Zjets_M50' : {
         'analyses': ['HTT','HZG'],
         'datasetpath': '/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S7_START52_V9-v2/AODSIM',
         'pu': 'S7',
@@ -48,7 +47,44 @@ datadefs = {
         # https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV
         'x_sec': 3503.71,
     },
-    
+    'DY1Jets_madgraph' : {
+        'analyses': ['HTT','HZG'],
+        'datasetpath': '/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S7_START52_V9-v2/AODSIM',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        # https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV
+        'x_sec': 666.298750815,
+    },
+    'DY2Jets_madgraph' : {
+        'analyses': ['HTT','HZG'],
+        'datasetpath': '/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S7_START52_V9-v2/AODSIM',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        # https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV
+        'x_sec': 214.973392508,
+    },
+    'DY3Jets_madgraph' : {
+        'analyses': ['HTT','HZG'],
+        'datasetpath': '/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S7_START52_V9-v2/AODSIM',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        # https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV
+        'x_sec': 60.6913837461,
+    },
+    'DY4Jets_madgraph' : {
+        'analyses': ['HTT','HZG'],
+        'datasetpath': '/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S7_START52_V9-v2/AODSIM',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        # https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV
+        'x_sec': 27.364567227,
+    },
+
+
+
+
+
+   
     'WWJetsTo2L2Nu_TuneZ2_8TeV' : {
         'analyses': ['HTT'],
         'datasetpath': '/WWTo2L2Nu_TuneZ2star_8TeV_pythia6_tauola/Summer12-PU_S7_START52_V9-v1/AODSIM',
@@ -122,14 +158,14 @@ datadefs = {
     'calibrationTarget':'Summer12_DR53X_HCP2012'
    },
 
-   'Tbar_t-channel_TuneZ2star_8TeV-powheg-tauola' : {
+   'Tbar_t-channel' : {
    'analyses': ['HTT'],
    'datasetpath' : "/Tbar_t-channel-DR_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM",
    'x_sec' : 30.7,
    'pu' : 'S10',
    },
 
-   'T_t-channel_TuneZ2star_8TeV-powheg-tauola' : {
+   'T_t-channel' : {
    'analyses': ['HTT'],
    'datasetpath' : "/T_t-channel-DR_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM",
    'x_sec' : 56.4,
@@ -138,14 +174,14 @@ datadefs = {
    },
 
 
-   'Tbar_s-channel_TuneZ2star_8TeV-powheg-tauola' : {
+   'Tbar_s-channel' : {
    'analyses': ['HTT'],
    'datasetpath' : "/Tbar_s-channel-DR_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM",
    'x_sec' : 1.56,
    'pu' : 'S10',
    },
 
-   'T_s-channel_TuneZ2star_8TeV-powheg-tauola' : {
+   'T_s-channel' : {
    'analyses': ['HTT'],
    'datasetpath' : "/T_s-channel-DR_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM",
    'x_sec' : 3.79,
@@ -167,7 +203,7 @@ datadefs = {
    'TTJets_SemiLeptMGDecays_8TeV-madgraph-tauola' : {
    'analyses': ['4L'],
    'datasetpath' : "",
-   'x_sec' : 234 * 0.324*0.676*2,
+   'x_sec' : 245 * 0.324*0.676*2,
    'pu' : 'S10',
     'calibrationTarget':'Summer12_DR53X_HCP2012'
    },
@@ -175,7 +211,7 @@ datadefs = {
    'TTJets_FullLeptMGDecays_8TeV-madgraph-tauola' : {
    'analyses': ['4L'],
    'datasetpath' : "",
-   'x_sec': 234*0.324*0.324,
+   'x_sec': 245*0.324*0.324,
    'pu' : 'S10',
     'calibrationTarget':'Summer12_DR53X_HCP2012'
    },
@@ -470,15 +506,40 @@ datadefs['ZGToLLG']= {
 
 datadefs['LFV_VBF_H2Tau_M-126'] = { 'analyses': ['HTT'], 'x_sec' : 0.157, 'pu' : 'S10',
       'calibrationTarget': 'Summer12_DR53X_HCP2012', 'datasetpath':'something'}
+datadefs['LFV_VBF_Dec9'] = { 'analyses': ['HTT'], 'x_sec' : 0.157, 'pu' : 'S10',
+      'calibrationTarget': 'Summer12_DR53X_HCP2012', 'datasetpath':'something'}
 
 datadefs['ntupleSuvadeepVBF'] = { 'analyses': ['HTT'], 'x_sec' : 0.157, 'pu' : 'S10',
       'calibrationTarget': 'Summer12_DR53X_HCP2012', 'datasetpath':'something'}
 
 datadefs['LFV_GluGlu_H2Tau_M-126'] = { 'analyses': ['HTT'], 'x_sec' :1.922, 'pu' : 'S10',
       'calibrationTarget': 'Summer12_DR53X_HCP2012', 'datasetpath':'something'}
+datadefs['LFV_GluGlu_Dec9'] = { 'analyses': ['HTT'], 'x_sec' :1.922, 'pu' : 'S10',
+      'calibrationTarget': 'Summer12_DR53X_HCP2012', 'datasetpath':'something'}
 
 datadefs['ntupleSuvadeepGG.root'] = { 'analyses': ['HTT'], 'x_sec' :1.922, 'pu' : 'S10',
       'calibrationTarget': 'Summer12_DR53X_HCP2012', 'datasetpath':'something'}
+datadefs['DY1Jets_madgraph'] = {
+        'analyses': ['HTT','HZG'],
+        'datasetpath': '/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S7_START52_V9-v2/AODSIM',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        # https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV
+        'x_sec': 666.298750815}
+ 
+datadefs['VBF_HToTauTau_M-125_8TeV-powheg-pythia6'] =         {'analyses': ['HTT'],
+        'datasetpath': '/VBF_HToTauTau_M-125_8TeV-powheg-pythia6/Summer12-PU_S7_START52_V9-v1/AODSIM',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        'x_sec': .157,
+    }
+datadefs['VBF_H2Tau_M-125'] =         {'analyses': ['HTT'],
+        'datasetpath': '/VBF_HToTauTau_M-125_8TeV-powheg-pythia6/Summer12-PU_S7_START52_V9-v1/AODSIM',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        'x_sec': .157,
+    }
+
 
 for mass in range(80,150, 10) + range(160, 220, 20) + range(250, 550, 50) + range(600, 1100, 100) :
    datadefs['SUSYGluGluToHToTauTau_M-%i_8TeV-pythia6-tauola' % mass] = {
@@ -496,7 +557,7 @@ for mass in range(80,150, 10) + range(160, 220, 20) + range(250, 550, 50) + rang
        'calibrationTarget':'Summer12_DR53X_HCP2012'
       }
 
-for mass in [110, 115, 120, 125, 135, 145, 155]:
+for mass in [110, 115, 120, 135, 145, 155]:
     datadefs['VBF_H2Tau_M-%i' % mass] = {
         'analyses': ['HTT'],
         'datasetpath': '/VBF_HToTauTau_M-%i_8TeV-powheg-pythia6/Summer12-PU_S7_START52_V9-v1/AODSIM' % mass,
