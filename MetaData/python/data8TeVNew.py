@@ -80,6 +80,70 @@ datadefs = {
         'x_sec': 27.364567227,
     },
 
+    'DY1Jets' : {
+        'analyses': ['HTT','HZG'],
+        'datasetpath': '/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S7_START52_V9-v2/AODSIM',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        # https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV
+        'x_sec': 666.298750815,
+    },
+    'DY2Jets' : {
+        'analyses': ['HTT','HZG'],
+        'datasetpath': '/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S7_START52_V9-v2/AODSIM',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        # https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV
+        'x_sec': 214.973392508,
+    },
+    'DY3Jets' : {
+        'analyses': ['HTT','HZG'],
+        'datasetpath': '/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S7_START52_V9-v2/AODSIM',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        # https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV
+        'x_sec': 60.6913837461,
+    },
+    'DY4Jets' : {
+        'analyses': ['HTT','HZG'],
+        'datasetpath': '/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S7_START52_V9-v2/AODSIM',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        # https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV
+        'x_sec': 27.364567227,
+    },
+    'OtherDY1Jets' : {
+        'analyses': ['HTT','HZG'],
+        'datasetpath': '/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S7_START52_V9-v2/AODSIM',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        # https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV
+        'x_sec': 666.298750815,
+    },
+    'OtherDY2Jets' : {
+        'analyses': ['HTT','HZG'],
+        'datasetpath': '/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S7_START52_V9-v2/AODSIM',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        # https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV
+        'x_sec': 214.973392508,
+    },
+    'OtherDY3Jets' : {
+        'analyses': ['HTT','HZG'],
+        'datasetpath': '/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S7_START52_V9-v2/AODSIM',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        # https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV
+        'x_sec': 60.6913837461,
+    },
+    'OtherDY4Jets' : {
+        'analyses': ['HTT','HZG'],
+        'datasetpath': '/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S7_START52_V9-v2/AODSIM',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        # https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat8TeV
+        'x_sec': 27.364567227,
+    },
 
 
 
@@ -94,11 +158,28 @@ datadefs = {
         'x_sec': 54.838*(0.1075+0.1057+0.1125)*(0.1075+0.1057+0.1125),
         #'x_sec': 3.53, # prep
     },
+   'WWpythia': {
+        'analyses': ['HTT'],
+        'datasetpath': '/WW_TuneZ2star_8TeV_pythia6_tauola',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        # seems too high..
+        'x_sec': 54.838,
+        #'x_sec': 3.53, # prep
+    },
 
    'WZJetsTo3LNu_TuneZ2_8TeV-madgraph-tauola' : {
    'analyses': ['HTT'],
    'datasetpath' : "/WZJetsTo3LNu_TuneZ2_8TeV-madgraph-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM",
-   'x_sec' : -999,
+   'x_sec' : 33.21*(0.1075+0.1057+0.1125)*(0.0363+0.0366+0.0370),
+   'pu' : 'S10',
+   'calibrationTarget':'Summer12_DR53X_HCP2012'
+   },
+   
+   'WZ' : {
+   'analyses': ['HTT'],
+   'datasetpath' : "/WZTuneZ2Star_pythia6",
+   'x_sec' : 33.21,
    'pu' : 'S10',
    'calibrationTarget':'Summer12_DR53X_HCP2012'
    },
@@ -114,7 +195,15 @@ datadefs = {
    'ZZJetsTo2L2Nu_TuneZ2star_8TeV-madgraph-tauola' : {
    'analyses': ['HTT'],
    'datasetpath' : "/ZZJetsTo2L2Nu_TuneZ2star_8TeV-madgraph-tauola/Summer12_DR53X-PU_S10_START53_V7A-v3/AODSIM",
-   'x_sec' : -999,
+   'x_sec' : 8.059*(0.0363+0.0366+0.0370)*(0.0363+0.0366+0.0370),
+   'pu' : 'S10',
+    'calibrationTarget':'Summer12_DR53X_HCP2012'
+   },
+
+   'ZZ' : {
+   'analyses': ['HTT'],
+   'datasetpath' : "/ZZ_TuneZ2star_pythia",
+   'x_sec' : 8.059,
    'pu' : 'S10',
     'calibrationTarget':'Summer12_DR53X_HCP2012'
    },
@@ -165,7 +254,23 @@ datadefs = {
    'pu' : 'S10',
    },
 
+   'Tbar_t-channel_TuneZ2star_8TeV-powheg-tauola' : {
+   'analyses': ['HTT'],
+   'datasetpath' : "/Tbar_t-channel-DR_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM",
+   'x_sec' : 30.7,
+   'pu' : 'S10',
+   },
+
+
    'T_t-channel' : {
+   'analyses': ['HTT'],
+   'datasetpath' : "/T_t-channel-DR_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM",
+   'x_sec' : 56.4,
+   'pu' : 'S10',
+    'calibrationTarget':'Summer12_DR53X_HCP2012'
+   },
+
+   'T_t-channel_TuneZ2star_8TeV-powheg-tauola' : {
    'analyses': ['HTT'],
    'datasetpath' : "/T_t-channel-DR_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM",
    'x_sec' : 56.4,
@@ -181,7 +286,26 @@ datadefs = {
    'pu' : 'S10',
    },
 
+   'Tbar_s-channel_TuneZ2star_8TeV-powheg-tauola' : {
+   'analyses': ['HTT'],
+   'datasetpath' : "/Tbar_s-channel-DR_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM",
+   'x_sec' : 1.56,
+   'pu' : 'S10',
+   },
+
+
+
+
+
    'T_s-channel' : {
+   'analyses': ['HTT'],
+   'datasetpath' : "/T_s-channel-DR_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM",
+   'x_sec' : 3.79,
+   'pu' : 'S10',
+    'calibrationTarget':'Summer12_DR53X_HCP2012'
+   },
+
+   'T_s-channel_TuneZ2star_8TeV-powheg-tauola' : {
    'analyses': ['HTT'],
    'datasetpath' : "/T_s-channel-DR_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM",
    'x_sec' : 3.79,
@@ -208,7 +332,23 @@ datadefs = {
     'calibrationTarget':'Summer12_DR53X_HCP2012'
    },
 
+   'TTJetsSemiLepMGDecays' : {
+   'analyses': ['4L'],
+   'datasetpath' : "",
+   'x_sec' : 245 * 0.324*0.676*2,
+   'pu' : 'S10',
+    'calibrationTarget':'Summer12_DR53X_HCP2012'
+   },
+
    'TTJets_FullLeptMGDecays_8TeV-madgraph-tauola' : {
+   'analyses': ['4L'],
+   'datasetpath' : "",
+   'x_sec': 245*0.324*0.324,
+   'pu' : 'S10',
+    'calibrationTarget':'Summer12_DR53X_HCP2012'
+   },
+
+   'TTJetsFullLepMGDecays' : {
    'analyses': ['4L'],
    'datasetpath' : "",
    'x_sec': 245*0.324*0.324,
@@ -483,6 +623,13 @@ datadefs = {
         'calibrationTarget': 'Summer12',
         'x_sec': 264.,
     },
+    'LFV_VH_H2MuTau_LONG-MuTauMC' :{
+	'analyses':['HLFV'],
+        'datasetpath': 'LFV_VH_H2MuTau_LONG-MuTauMC',
+	'pu': 'S7',
+	'CalibartionTarget': 'SummerInTime',
+	'x_sec': ((0.69669+0.3943+0.1302)/100.0),
+    },
 
 
 }
@@ -508,6 +655,8 @@ datadefs['LFV_VBF_H2Tau_M-126'] = { 'analyses': ['HTT'], 'x_sec' : 0.157, 'pu' :
       'calibrationTarget': 'Summer12_DR53X_HCP2012', 'datasetpath':'something'}
 datadefs['LFV_VBF_Dec9'] = { 'analyses': ['HTT'], 'x_sec' : 0.157, 'pu' : 'S10',
       'calibrationTarget': 'Summer12_DR53X_HCP2012', 'datasetpath':'something'}
+datadefs['LFV_VBF_H2MuTau_July-make_ntuples_cfg'] = { 'analyses': ['HTT'], 'x_sec' :0.157, 'pu' : 'S10',
+      'calibrationTarget': 'Summer12_DR53X_HCP2012', 'datasetpath':'something'}
 
 datadefs['ntupleSuvadeepVBF'] = { 'analyses': ['HTT'], 'x_sec' : 0.157, 'pu' : 'S10',
       'calibrationTarget': 'Summer12_DR53X_HCP2012', 'datasetpath':'something'}
@@ -515,6 +664,8 @@ datadefs['ntupleSuvadeepVBF'] = { 'analyses': ['HTT'], 'x_sec' : 0.157, 'pu' : '
 datadefs['LFV_GluGlu_H2Tau_M-126'] = { 'analyses': ['HTT'], 'x_sec' :1.922, 'pu' : 'S10',
       'calibrationTarget': 'Summer12_DR53X_HCP2012', 'datasetpath':'something'}
 datadefs['LFV_GluGlu_Dec9'] = { 'analyses': ['HTT'], 'x_sec' :1.922, 'pu' : 'S10',
+      'calibrationTarget': 'Summer12_DR53X_HCP2012', 'datasetpath':'something'}
+datadefs['LFV_GG_H2MuTau_July-make_ntuples_cfg'] = { 'analyses': ['HTT'], 'x_sec' : 1.922, 'pu' : 'S10',
       'calibrationTarget': 'Summer12_DR53X_HCP2012', 'datasetpath':'something'}
 
 datadefs['ntupleSuvadeepGG.root'] = { 'analyses': ['HTT'], 'x_sec' :1.922, 'pu' : 'S10',
@@ -531,14 +682,36 @@ datadefs['VBF_HToTauTau_M-125_8TeV-powheg-pythia6'] =         {'analyses': ['HTT
         'datasetpath': '/VBF_HToTauTau_M-125_8TeV-powheg-pythia6/Summer12-PU_S7_START52_V9-v1/AODSIM',
         'pu': 'S7',
         'calibrationTarget': 'Summer12',
-        'x_sec': .157,
+        'x_sec': .09468,
     }
 datadefs['VBF_H2Tau_M-125'] =         {'analyses': ['HTT'],
         'datasetpath': '/VBF_HToTauTau_M-125_8TeV-powheg-pythia6/Summer12-PU_S7_START52_V9-v1/AODSIM',
         'pu': 'S7',
         'calibrationTarget': 'Summer12',
-        'x_sec': .157,
+        'x_sec': .09468,
     }
+
+datadefs['HiggsToWWVBF125'] =         {'analyses': ['HTT'],
+        'datasetpath': 'fixme',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        'x_sec': 0.33927,
+    }
+
+datadefs['HWWVHTTH125'] = {'analysis' : ['HLFV'],
+        'datasetpath': 'fixme',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        'x_sec': 0.26255585000000004,
+    }
+
+datadefs['HiggsToWWGG125'] =         {'analyses': ['HTT'],
+        'datasetpath': 'fixme',
+        'pu': 'S7',
+        'calibrationTarget': 'Summer12',
+        'x_sec': 4.14305,
+    }
+
 
 
 for mass in range(80,150, 10) + range(160, 220, 20) + range(250, 550, 50) + range(600, 1100, 100) :
@@ -557,23 +730,31 @@ for mass in range(80,150, 10) + range(160, 220, 20) + range(250, 550, 50) + rang
        'calibrationTarget':'Summer12_DR53X_HCP2012'
       }
 
-for mass in [110, 115, 120, 135, 145, 155]:
-    datadefs['VBF_H2Tau_M-%i' % mass] = {
-        'analyses': ['HTT'],
-        'datasetpath': '/VBF_HToTauTau_M-%i_8TeV-powheg-pythia6/Summer12-PU_S7_START52_V9-v1/AODSIM' % mass,
-        'pu': 'S7',
-        'calibrationTarget': 'Summer12',
-        'x_sec': -999,
-    }
+#for mass in [110, 115, 120, 135, 145, 155]:
+#    datadefs['VBF_H2Tau_M-%i' % mass] = {
+#        'analyses': ['HTT'],
+#        'datasetpath': '/VBF_HToTauTau_M-%i_8TeV-powheg-pythia6/Summer12-PU_S7_START52_V9-v1/AODSIM' % mass,
+#        'pu': 'S7',
+#        'calibrationTarget': 'Summer12',
+#        'x_sec': -999,
+#    }
 
-for mass in range(110, 165, 5):
-   datadefs['GGH_H2Tau_M-%i' % mass] = {
+#for mass in range(110, 165, 5):
+#   datadefs['GGH_H2Tau_M-%i' % mass] = {
+#        'analyses': ['HTT'],
+#        'datasetpath': '/GluGluToHToTauTau_M-%i_8TeV-powheg-pythia6/Summer12-PU_S7_START52_V9-v1/AODSIM' % mass,
+#        'pu': 'S7',
+#        'calibrationTarget': 'Summer12',
+#        'x_sec': -999,
+#    }
+
+datadefs['GGH_H2Tau_M-125'] = {
         'analyses': ['HTT'],
-        'datasetpath': '/GluGluToHToTauTau_M-%i_8TeV-powheg-pythia6/Summer12-PU_S7_START52_V9-v1/AODSIM' % mass,
+        'datasetpath': '/GluGluToHToTauTau_M-%i_8TeV-powheg-pythia6/Summer12-PU_S7_START52_V9-v1/AODSIM',
         'pu': 'S7',
         'calibrationTarget': 'Summer12',
-        'x_sec': -999,
-    }
+        'x_sec': 1.1562,
+}
 
 aTGC_path = Template('/ZZ4L_Sherpa_aTGC_f${i}_${f1}0_${f2}0_v2/iross-SUMMER12-AODSIM-START53_V7C_${i}_${f1}_${f2}-RECO-v2-6c2e8f83abf0ca43d500aa4162646310/USER')
 
@@ -586,6 +767,14 @@ for coup in ["4","5"]:
                'dbs' : "cms_dbs_ph_analysis_01",
                'x_sec' : -999,
                'pu' : 'S10',
+               'calibrationTarget':'Summer12_DR53X_HCP2012'
+               }
+
+datadefs['SUSYBBHToTauTau_M-300_8TeV-pythia6-tauola'] = {
+   'analyses': ['HTT'],
+   'datasetpath': "/SUSYBBHToTauTau_M-300_8TeV-pythia6-tauola/Summer12_DR53X-PU_S10_START53_V7A-v2/AODSIM",
+   'pu' : 'S10',
+   'x_sec' : -999,
                'calibrationTarget':'Summer12_DR53X_HCP2012'
                }
 
@@ -705,7 +894,8 @@ for mass in range(110, 150, 10):
 # We use the same name for the 53X lepdecay only samples (sigh)
 for mass in range(110, 160, 5):
     datadefs['VH_H2Tau_M-%s' % mass] = {}
-    datadefs['VH_H2Tau_M-%s' % mass]['x_sec'] = xsbr(8,mass,'wh','tautau')[0]*br_w_leptons + xsbr(8,mass,'zh','tautau')[0]*br_z_leptons + xsbr(8,mass,'tth','tautau')[0]*br_w_leptons**2
+ #   datadefs['VH_H2Tau_M-%s' % mass]['x_sec'] = xsbr(8,mass,'wh','tautau')[0]*br_w_leptons + xsbr(8,mass,'zh','tautau')[0]*br_z_leptons + xsbr(8,mass,'tth','tautau')[0]*br_w_leptons**2
+    datadefs['VH_H2Tau_M-%s' % mass]['x_sec'] = 0.077
 
 ## datadefs['VH_H2Tau_M-120']['x_sec'] = (0.7966*br_w_leptons + 0.4483*br_z_leptons + 0.1470*square(br_w_leptons))*7.04E-02
 ## datadefs['VH_H2Tau_M-130']['x_sec'] = (0.6095*br_w_leptons + 0.3473*br_z_leptons + 0.1157*square(br_w_leptons))*5.48E-02
@@ -842,9 +1032,10 @@ def build_data_set(pd, analyses):
       'firstRun' : 203768,
       'lastRun' : 208686,
       'analyses' : analyses,
-      'calibrationTarget':'Moriond2013'
+      'calibrationTarget':'Moriond2013'	
       },
     }
+
    sample_dict = {
       'data_%s' % pd : subsample_dict.keys()
       }
