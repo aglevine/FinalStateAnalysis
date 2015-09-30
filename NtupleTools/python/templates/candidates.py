@@ -9,7 +9,8 @@ Author: Evan K. Friis
 from FinalStateAnalysis.Utilities.cfgtools import PSet
 
 kinematics = PSet(
-    objectPt = '{object}.pt',
+    #objectPt = '{object}.pt',
+    objectPt = '? evt.jets.size()>{object_idx} ? {object}.pt() : -999',
     objectEta = '{object}.eta',
     objectAbsEta = 'abs({object}.eta)',
     objectPhi = '{object}.phi',

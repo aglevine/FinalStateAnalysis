@@ -184,8 +184,10 @@ def produce_final_states(process, daughter_collections, output_commands,
     process.buildSingleObjects = cms.Sequence()
     # build single object pairs
     for object in object_types:
+        print object
         # Define some basic selections for building combinations
         cuts = [crossCleaning]  # basic x-cleaning
+        print cuts
 
         producer = cms.EDProducer(
             "PAT%sFinalStateProducer" % object[0],
@@ -225,6 +227,7 @@ def produce_final_states(process, daughter_collections, output_commands,
 
         # Define some basic selections for building combinations
         cuts = [crossCleaning]  # basic x-cleaning
+        print cuts
 
         producer = cms.EDProducer(
             "PAT%s%sFinalStateProducer" % (diobject[0][0], diobject[1][0]),

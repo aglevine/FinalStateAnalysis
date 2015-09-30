@@ -122,3 +122,32 @@ extraJet = PSet(
     objectPhi = '? evt.jets.size()>{object_idx} ? {object}.phi() : -999',
     objectPUMVA = '? evt.jets.size()>{object_idx} ? {object}.userFloat("pileupJetId:fullDiscriminant") : -999',
 )
+
+extraBJetTools = PSet(
+        #Btagging
+        objectCSVBtag     = '? evt.jets.size()>{object_idx} ? {object}.bDiscriminator("combinedSecondaryVertexBJetTags") : -999',
+        objectPFJBPBtag   = '? evt.jets.size()>{object_idx} ? {object}.bDiscriminator("pfJetBProbabilityBJetTags") : -999',
+        objectPFJPBtag    = '? evt.jets.size()>{object_idx} ? {object}.bDiscriminator("pfJetProbabilityBJetTags") : -999',
+        objectPFTCHPBtag  = '? evt.jets.size()>{object_idx} ? {object}.bDiscriminator("pfTrackCountingHighPurBJetTags") : -999',
+        objectPFTCHEBtag  = '? evt.jets.size()>{object_idx} ? {object}.bDiscriminator("pfTrackCountingHighEffBJetTags") : -999',
+        objectPFSSVHEBtag = '? evt.jets.size()>{object_idx} ? {object}.bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags") : -999',
+        objectPFSSVHPBtag = '? evt.jets.size()>{object_idx} ? {object}.bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags") : -999',
+        objectPFCSVBtag   = '? evt.jets.size()>{object_idx} ? {object}.bDiscriminator("pfCombinedSecondaryVertexV2BJetTags") : -999',
+        objectPFCISVBtag  = '? evt.jets.size()>{object_idx} ? {object}.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") : -999',
+        objectPFCSVSLBtag = '? evt.jets.size()>{object_idx} ? {object}.bDiscriminator("pfCombinedSecondaryVertexSoftLeptonBJetTags") : -999',
+        objectPFCMVABtag  = '? evt.jets.size()>{object_idx} ? {object}.bDiscriminator("pfCombinedMVABJetTags") : -999',
+
+        # sv variables in miniAOD
+        objectSVMass    = '? evt.jets.size()>{object_idx} ? {object}.userFloat("vtxMass") : -999',
+        objectSVNTracks = '? evt.jets.size()>{object_idx} ? {object}.userFloat("vtxNtracks") : -999',
+        objectSV3DVal   = '? evt.jets.size()>{object_idx} ? {object}.userFloat("vtx3DVal") : -999',
+        objectSV3DSig   = '? evt.jets.size()>{object_idx} ? {object}.userFloat("vtx3DSig") : -999',
+
+        #Flavour
+        objectJetFlavour = '? evt.jets.size()>{object_idx} ? {object}.partonFlavour() : -999',
+)
+
+extraPUTools = PSet(
+        objectIDTight = '? evt.jets.size()>{object_idx} ? {object}.userFloat("idTight") : -999',
+        objectPUIDFullDiscriminant = '? evt.jets.size()>{object_idx} ? {object}.userFloat("pileupJetId:fullDiscriminant") : -999',
+)

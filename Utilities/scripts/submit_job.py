@@ -125,7 +125,8 @@ def getFarmoutCommand(args, dataset_name, full_dataset_name):
 
     # temp hardcode
     if args.apply_cms_lumimask:
-        filename = 'Cert_246908-251642_13TeV_PromptReco_Collisions15_JSON.txt'
+        #filename = 'Cert_246908-251883_13TeV_PromptReco_Collisions15_JSON_v2.txt'
+        filename = 'Cert_246908-254879_13TeV_PromptReco_Collisions15_JSON.txt'
         lumi_mask_path = os.path.join('/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV',filename)
         command.append('lumiMask=%s' % lumi_mask_path)
 
@@ -170,7 +171,6 @@ def datasets_from_das(args):
             dataset_name = dataset.split('/')[1] 
             passes_filter = True
             passes_wildcard = False
-            
             for pattern in args.samples:
                 if args.dastuple: # check json for shorthand
                     with open(args.dastuple) as tuple_file:
@@ -181,6 +181,8 @@ def datasets_from_das(args):
                                 if fnmatch.fnmatchcase(shorthand, pattern):
                                     passes_wildcard = True
                 else: # check das directly
+		    print dataset_name
+		    print pattern
                     if fnmatch.fnmatchcase(dataset_name, pattern):
                         passes_wildcard = True
             passes_filter = passes_wildcard and passes_filter
@@ -188,23 +190,32 @@ def datasets_from_das(args):
                 script_content += getFarmoutCommand(args, dataset_name, dataset)
     # special handling for data
     if args.isData:
-        data_patterns = [x for x in args.samples if 'data_' in x]
+        #data_patterns = [x for x in args.samples if 'data_' in x]
+	data_patterns = [x for x in args.samples]
         data_datasets = get_das_info('/*/*/MINIAOD')
         for dataset in data_datasets:
             passes_filter = True
             passes_wildcard = False
+            #print "test"
+	    #print dataset
+            #print data_datasets
+	    #print data_patterns
             name_to_use = 'data_' + '_'.join(dataset.split('/'))
+	    #print name_to_use
             for pattern in data_patterns:
                 if args.dastuple: # check json for shorthand, links to full dataset name
                     with open(args.dastuple) as tuple_file:
                         tuple_info = json.load(tuple_file)
                         matching_datasets = []
                         for shorthand, fullname in tuple_info.iteritems():
+			    print "fullname: " + fullname
                             if fullname in dataset:
                                 if fnmatch.fnmatchcase(shorthand, pattern):
                                     passes_wildcard = True
                                     name_to_use = shorthand
                 else: # check das directly
+                    print dataset
+                    print pattern
                     if fnmatch.fnmatchcase(dataset, pattern):
                         passes_wildcard = True
             passes_filter = passes_wildcard and passes_filter

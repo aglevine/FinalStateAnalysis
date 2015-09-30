@@ -239,6 +239,7 @@ PATFinalState::ptOrdered(size_t i, size_t j, const std::string& tags) const {
 int
 PATFinalState::matchToHLTFilter(size_t i, const std::string& filter,
     double maxDeltaR) const {
+  //std::cout << "Will match to " << path << " with dR " << maxDeltaR << std::endl;
   const reco::Candidate* dau = this->daughter(i);
   assert(dau);
   return evt()->matchedToFilter(*dau, filter, maxDeltaR);
@@ -268,6 +269,15 @@ PATFinalState::visP4(const std::string& tags) const {
   std::vector<const reco::Candidate*> theDaughters = daughters(tags);
   for (size_t i = 0; i < numberOfDaughters(); ++i) {
     output += theDaughters[i]->p4();
+  }
+  return output;
+}
+
+double PATFinalState::jetHt(const std::string& jetCuts) const {
+  std::vector<const reco::Candidate*> jets = this->vetoJets(0.0, jetCuts);
+  double output = 0;
+  for (size_t i = 0; i < jets.size(); ++i) {
+    output += jets[i]->pt();
   }
   return output;
 }
@@ -356,14 +366,17 @@ PATFinalState::dR(int i, int j) const {
 double
 PATFinalState::smallestDeltaR() const {
   double smallestDeltaR = 1e9;
+  std::cout<<"number of daughters: " << numberOfDaughters() << std::endl;
   for (size_t i = 0; i < numberOfDaughters()-1; ++i) {
     for (size_t j = i+1; j < numberOfDaughters(); ++j) {
       double deltaRIJ = dR(i, j);
+      std::cout << "i, j, deltaRIJ: " << i << " " << j<< " " <<deltaRIJ<<std::endl;
       if (deltaRIJ < smallestDeltaR) {
         smallestDeltaR = deltaRIJ;
       }
     }
   }
+  std::cout <<"smallest deltaR: " << smallestDeltaR << std::endl;
   return smallestDeltaR;
 }
 
@@ -619,135 +632,6 @@ PATFinalState::subcand(int i, int j, int x, int y, int z) const {
 }
 
 PATFinalStateProxy
-PATFinalState::subcandfsr( int i, int j, const std::string& fsrLabel ) const
-{
-  std::vector<reco::CandidatePtr> output;
-  output.push_back( daughterPtr(i) );
-  output.push_back( daughterPtr(j) );
-  
-  const reco::CandidatePtr fsrPho = bestFSROfZ(i, j, fsrLabel);
-  if(fsrPho.isNonnull() && fsrPho.isAvailable())
-    output.push_back(fsrPho);
-  return PATFinalStateProxy(new PATMultiCandFinalState(output, evt()));
-}
-
-const reco::CandidatePtr PATFinalState::bestFSROfZ(int i, int j, const std::string& fsrLabel) const
-{
-  bool iIsElectron = false;
-  bool jIsElectron = false;
-
-  edm::Ptr<pat::Electron> ei = daughterAsElectron(i);
-  edm::Ptr<pat::Muon> mi = daughterAsMuon(i);
-  if(daughter(i)->isElectron() && ei.isNonnull() && ei.isAvailable())
-    {
-      iIsElectron = true;
-    }
-  else 
-    {
-      if(!(daughter(i)->isMuon() && mi.isNonnull() && mi.isAvailable()))
-        return reco::CandidatePtr();
-    }
-
-  edm::Ptr<pat::Electron> ej = daughterAsElectron(j);
-  edm::Ptr<pat::Muon> mj = daughterAsMuon(j);
-  if(daughter(j)->isElectron() && ej.isNonnull() && ej.isAvailable())
-    {
-      jIsElectron = true;
-    }
-  else 
-    {
-      if(!(daughter(j)->isMuon() && mj.isNonnull() && mj.isAvailable()))
-        return reco::CandidatePtr();//edm::Ptr<reco::Candidate>(new const reco::Candidate());
-    }
-
-  int leptonOfBest; // index of daughter that has best FSR cand 
-  int bestFSR = -1; // index of best photon as userCand
-  double bestFSRPt = -1; // Pt of best photon
-  double bestFSRDeltaR = 1000; // delta R between best FSR and nearest lepton
-  float noFSRDist = zCompatibility(i,j); // must be better Z candidate than no FSR
-  if(noFSRDist == -1000) // Same sign leptons
-    return reco::CandidatePtr();
-  PATFinalState::LorentzVector p4NoFSR = daughter(i)->p4() + daughter(j)->p4();
-
-  if((iIsElectron?ei->hasUserInt("n"+fsrLabel):mi->hasUserInt("n"+fsrLabel)))
-    {
-      for(int ind = 0; ind < (iIsElectron?ei->userInt("n"+fsrLabel):mi->userInt("n"+fsrLabel)); ++ind)
-        {
-          PATFinalState::LorentzVector fsrCandP4 = daughterUserCandP4(i, fsrLabel+std::to_string(ind));
-          PATFinalState::LorentzVector zCandP4 = p4NoFSR + fsrCandP4;
-          if(zCandP4.mass() < 4. || zCandP4.mass() > 100.) // overall mass cut
-            continue;
-          if(zCompatibility(zCandP4) > noFSRDist) // Must bring us closer to on-shell Z
-            continue;
-          // If any FSR candidate has pt > 4, pick the highest pt candidate. 
-          // Otherwise, pick the one with the smallest deltaR to its lepton.
-          if(bestFSRPt > 4. || fsrCandP4.pt() > 4.)
-            {
-              if(fsrCandP4.pt() < bestFSRPt)
-                continue;
-            }
-          else if(reco::deltaR(daughter(i)->p4(), fsrCandP4) > bestFSRDeltaR)
-            continue;
-
-          // This one looks like the best for now
-          leptonOfBest = i;
-          bestFSR = ind;
-          bestFSRPt = fsrCandP4.pt();
-          bestFSRDeltaR = reco::deltaR(daughter(i)->p4(), fsrCandP4);
-        }
-    }
-  if((jIsElectron?ej->hasUserInt("n"+fsrLabel):mj->hasUserInt("n"+fsrLabel)))
-    {
-      //      std::cout << "Found an embedded candidate in event " << evt()->evtId().event() << std::endl;
-      for(int ind = 0; ind < (jIsElectron?ej->userInt("n"+fsrLabel):mj->userInt("n"+fsrLabel)); ++ind)
-        {
-          PATFinalState::LorentzVector fsrCandP4 = daughterUserCandP4(j, fsrLabel+std::to_string(ind));
-          PATFinalState::LorentzVector zCandP4 = p4NoFSR + fsrCandP4;
-          if(zCandP4.mass() < 4. || zCandP4.mass() > 100.) // overall mass cut
-            continue;
-          if(zCompatibility(zCandP4) > noFSRDist) // Must bring us closer to on-shell Z
-            continue;
-          // If any FSR candidate has pt > 4, pick the highest pt candidate. 
-          // Otherwise, pick the one with the smallest deltaR to its lepton.
-          if(bestFSRPt > 4. || fsrCandP4.pt() > 4.)
-            {
-              if(fsrCandP4.pt() < bestFSRPt)
-                continue;
-            }
-          else if(reco::deltaR(daughter(j)->p4(), fsrCandP4) > bestFSRDeltaR)
-            continue;
-
-          // This one looks like the best for now
-          leptonOfBest = j;
-          bestFSR = ind;
-          bestFSRPt = fsrCandP4.pt();
-          bestFSRDeltaR = reco::deltaR(daughter(j)->p4(), fsrCandP4);
-        }
-    }
-  if(bestFSR != -1)
-    {
-      //  std::cout << "Accepted FSR cand, event " << evt()->evtId().event() << std::endl;
-      return daughterUserCand(leptonOfBest, fsrLabel+std::to_string(bestFSR));
-    }
-  //  std::cout << "Rejected FSR cand, event " << evt()->evtId().event() << std::endl;
-  return reco::CandidatePtr();//edm::Ptr<reco::Candidate>(new const reco::Candidate());
-}
-
-PATFinalState::LorentzVector
-PATFinalState::p4fsr(const std::string& fsrLabel) const
-{
-  // start with the 4-momentum of the first Z and add to it
-  PATFinalState::LorentzVector p = subcandfsr(0, 1, fsrLabel)->p4();
-
-  for(unsigned int i = 2; i+1 < numberOfDaughters(); i += 2)
-    {
-      p += subcandfsr(i, i+1, fsrLabel)->p4();
-    }
-
-  return p;
-}
-
-PATFinalStateProxy
 PATFinalState::subcand(const std::string& tags) const {
   const std::vector<reco::CandidatePtr> daus = daughterPtrs(tags);
   return PATFinalStateProxy(
@@ -817,11 +701,82 @@ double PATFinalState::zCompatibility(const PATFinalState::LorentzVector& p4) con
   return std::abs(p4.mass() - 91.1876);
 }
 
-double PATFinalState::zCompatibilityFSR(int i, int j, const std::string fsrLabel) const
+double PATFinalState::closestZ(int i, const std::string& filter, std::vector<const reco::Candidate*> legs) const
 {
-  PATFinalStateProxy z = subcandfsr(i, j, fsrLabel);
-  return zCompatibility(z);
+  std::vector<const reco::Candidate*> zFirstLeg;
+  zFirstLeg.push_back(daughter(i));
+  int charge = daughter(i)->charge();
+  std::string newfilter = filter;
+  if (charge>0) {
+    newfilter += "charge()<0";
+  }
+  else {
+    newfilter += "charge()>0";
+  }
+  std::vector<const reco::Candidate*> zSecondLegs = getVetoObjects(
+      zFirstLeg, legs, 0.0, newfilter);
+  double result = 1000;
+  for (size_t j=0; j<zSecondLegs.size(); j++) {
+    LorentzVector totalP4 = daughter(i)->p4() + zSecondLegs.at(j)->p4();
+    double temp = std::abs(totalP4.mass() - 91.1876);
+    if (temp < result) result = temp;
+  }
+  return result;
 }
+
+double PATFinalState::closestZElectron(int i, const std::string& filter="") const
+{
+  return closestZ(i,filter,ptrizeCollection(evt()->electrons()));
+}
+
+double PATFinalState::closestZMuon(int i, const std::string& filter="") const
+{
+  return closestZ(i,filter,ptrizeCollection(evt()->muons()));
+}
+
+double PATFinalState::closestZTau(int i, const std::string& filter="") const
+{
+  return closestZ(i,filter,ptrizeCollection(evt()->taus()));
+}
+
+double PATFinalState::smallestMll(int i, const std::string& filter, std::vector<const reco::Candidate*> legs) const
+{
+  std::vector<const reco::Candidate*> zFirstLeg;
+  zFirstLeg.push_back(daughter(i));
+  int charge = daughter(i)->charge();
+  std::string newfilter = filter;
+  if (charge>0) {
+    newfilter += "charge()<0";
+  }
+  else {
+    newfilter += "charge()>0";
+  }
+  std::vector<const reco::Candidate*> zSecondLegs = getVetoObjects(
+      zFirstLeg, legs, 0.0, newfilter);
+  double result = 1000;
+  for (size_t j=0; j<zSecondLegs.size(); j++) {
+    LorentzVector totalP4 = daughter(i)->p4() + zSecondLegs.at(j)->p4();
+    double temp = totalP4.mass();
+    if (temp < result) result = temp;
+  }
+  return result;
+}
+
+double PATFinalState::smallestMee(int i, const std::string& filter="") const
+{
+  return smallestMll(i,filter,ptrizeCollection(evt()->electrons()));
+}
+
+double PATFinalState::smallestMmm(int i, const std::string& filter="") const
+{
+  return smallestMll(i,filter,ptrizeCollection(evt()->muons()));
+}
+
+double PATFinalState::smallestMtt(int i, const std::string& filter="") const
+{
+  return smallestMll(i,filter,ptrizeCollection(evt()->taus()));
+}
+
 
 VBFVariables PATFinalState::vbfVariables(const std::string& jetCuts) const {
   std::vector<const reco::Candidate*> hardScatter = this->daughters();
@@ -1035,7 +990,12 @@ const float PATFinalState::getPVDZ(const size_t i) const
       const edm::Ptr<reco::Vertex> pv = event_->pv();
       return daughterAsMuon(i)->muonBestTrack()->dz(pv->position());
     }
-  throw cms::Exception("InvalidParticle") << "FSA can only find dZ for electron and muon for now" << std::endl;
+  else if(abs(daughter(i)->pdgId()) == 15)
+    {
+      pat::PackedCandidate const* packedLeadTauCand = dynamic_cast<pat::PackedCandidate const*>(daughterAsTau(i)->leadChargedHadrCand().get());
+      return (packedLeadTauCand->dz());
+    }
+  throw cms::Exception("InvalidParticle") << "FSA can only find dZ for electron, muon and tau for now" << std::endl;
 }
 
 const float PATFinalState::getPVDXY(const size_t i) const

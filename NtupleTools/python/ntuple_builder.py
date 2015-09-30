@@ -64,7 +64,7 @@ _muon_template = PSet(
     templates.muons.id,
     templates.muons.energyCorrections,
     templates.muons.tracking,
-    templates.muons.trigger,
+    #templates.muons.trigger_25ns,
     templates.topology.mtToMET,
 )
 
@@ -83,7 +83,7 @@ _electron_template = PSet(
     templates.electrons.energyCorrections,
     templates.electrons.tracking,
     templates.electrons.supercluster,
-    templates.electrons.trigger,
+    #templates.electrons.trigger_25ns,
     templates.topology.mtToMET,
 )
 
@@ -219,7 +219,10 @@ def make_ntuple(*legs, **kwargs):
             )
 
     # Triggers we care about depend on run configuration
+    leg_triggers = { 'e':PSet(), 'm':PSet(), 't':PSet(), 'j':PSet(), 'g':PSet() }
     if use25ns:
+        leg_triggers['e'] = templates.electrons.trigger_25ns
+        leg_triggers['m'] = templates.muons.trigger_25ns
         diLep_triggers = templates.trigger.doubleLepton_25ns
         if isMC:
             lep_triggers = templates.trigger.singleLepton_25ns_MC
@@ -227,6 +230,8 @@ def make_ntuple(*legs, **kwargs):
             lep_triggers = templates.trigger.singleLepton_25ns
     else:    
         diLep_triggers = templates.trigger.doubleLepton_50ns
+        leg_triggers['e'] = templates.electrons.trigger_50ns
+        leg_triggers['m'] = templates.muons.trigger_50ns
         if isMC:
             lep_triggers = templates.trigger.singleLepton_50ns_MC
         else:
@@ -243,6 +248,9 @@ def make_ntuple(*legs, **kwargs):
     # Optionally apply extra branches in kwargs
     if 'branches' in kwargs:
         for branch, value in kwargs['branches'].iteritems():
+            print "branch, value"
+	    print branch
+            print value
             setattr(ntuple_config, branch, cms.string(value))
 
     # Check if we want to use special versions of the FSA producers
@@ -268,6 +276,7 @@ def make_ntuple(*legs, **kwargs):
     for v in ['e','m','t','g','j']:
         leg_branch_templates[v] = PSet(
             _leg_templates[v],
+            leg_triggers[v],
             custVariables[v],
             candidateVariables,
         )
@@ -296,6 +305,8 @@ def make_ntuple(*legs, **kwargs):
     extraJetVariables = kwargs.get('extraJetVariables', PSet())
     extra_jet_template = PSet(
         templates.topology.extraJet,
+        templates.topology.extraBJetTools,
+        templates.topology.extraPUTools,
         extraJetVariables,
         )
     for i in range(kwargs.get("nExtraJets", 0)):
@@ -307,6 +318,7 @@ def make_ntuple(*legs, **kwargs):
             ntuple_config,
             extra_jet_template.replace(object=label)            
             )
+    print ntuple_config
     
     dicandidateVariables = kwargs.get('dicandidateVariables',PSet())
     dicandidate_template = PSet(
@@ -316,17 +328,10 @@ def make_ntuple(*legs, **kwargs):
 
     # Now we need to add all the information about the pairs
     for leg_a, leg_b in itertools.combinations(object_labels, 2):
-        if hzz:
-            ntuple_config = PSet(
-                ntuple_config,
-                dicandidate_template.replace(object1=leg_a, object2=leg_b),
-                templates.topology.zbosonMiniAOD.replace(object1=leg_a, object2=leg_b),
-                )
-        else:
-            ntuple_config = PSet(
-                ntuple_config,
-                dicandidate_template.replace(object1=leg_a, object2=leg_b),
-                )
+        ntuple_config = PSet(
+            ntuple_config,
+            dicandidate_template.replace(object1=leg_a, object2=leg_b),
+            )
         # Check if we want to enable SVfit
         # Only do SVfit in states with 2 or 4 leptons
         do_svfit = kwargs.get("svFit", False)
@@ -361,19 +366,14 @@ def make_ntuple(*legs, **kwargs):
 
     analyzerSrc = "finalState" + "".join(
             _producer_translation[x] for x in legs ) + producer_suffix
+    print "analyzerSrc"
+    print analyzerSrc
 
-    if hzz:
-        ntuple_config = PSet(
-            ntuple_config,
-            templates.topology.hzzMiniAOD
-            )
-    
     # Some feature are not included in miniAOD or are currently broken. 
     # Remove them from the ntuples to prevent crashes.
     #!!! Take items off of this list as we unbreak them. !!!#
     notInMiniAOD = [
         # candidates.py
-        "t[1-9]?PVDZ",
         "t[1-9]?S?IP[23]D(Err)?",
         ]
 
@@ -395,6 +395,7 @@ def make_ntuple(*legs, **kwargs):
         evtSrc=cms.InputTag("patFinalStateEventProducer"),
         # counter of events before any selections
         skimCounter=cms.InputTag("eventCount"),
+        summedWeight=cms.InputTag("summedWeight"),
         analysis=cms.PSet(
             selections=cms.VPSet(),
             EventView=cms.bool(False),
@@ -429,11 +430,16 @@ def make_ntuple(*legs, **kwargs):
                     cut=cms.string(cut),
                     )
                 )
+            print name
+            print cut
 
     # Now apply our formatting operations
+    print "output not formatted: "
+    print format_labels
     format(output, **format_labels)
 #    return LHEFilter*output
-
+    print "formatted: "
+    #print output
     return output
 
 if __name__ == "__main__":

@@ -268,6 +268,9 @@ class PSet(cms.PSet):
         # Reduce boiler plate of input arguments
         for key in kwargs.keys():
             value = kwargs[key]
+            print "key, value:"
+            print key
+            print value
             if isinstance(value, str):
                 kwargs[key] = cms.string(value)
             elif isinstance(value, float):
