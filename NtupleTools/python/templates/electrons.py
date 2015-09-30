@@ -28,29 +28,40 @@ id = PSet(
     objectMVANonTrigWP90 = '{object}.userFloat("MVANonTrigWP90")',
     
     # Use cms.string so we get the parentheses formatting bonus
+#    objectRelPFIsoDB = cms.string(
+#        "({object}.userIso(0)"
+#        "+max({object}.userIso(1)"
+#        "+{object}.neutralHadronIso()"
+#        "-0.5*{object}.userIso(2),0.0))"
+#        "/{object}.pt()"
+#    ),
     objectRelPFIsoDB = cms.string(
-        "({object}.userIso(0)"
-        "+max({object}.userIso(1)"
-        "+{object}.neutralHadronIso()"
-        "-0.5*{object}.userIso(2),0.0))"
+        "({object}.userIsolation('PfChargedHadronIso')"
+        "+max({object}.userIsolation('PfNeutralHadronIso')"
+        "+{object}.userIsolation('PfGammaIso')"
+        "-0.5*{object}.userIsolation('PfPUChargedHadronIso'),0.0))"
         "/{object}.pt()"
     ),
     objectRelPFIsoRho = cms.string(
         '({object}.chargedHadronIso()'
         '+max(0.0,{object}.neutralHadronIso()'
         '+{object}.photonIso()'
-        '-{object}.userFloat("rhoCSA14")*{object}.userFloat("EffectiveArea_HZZ4l2015")))'
+        '-{object}.userFloat("rho_fastjet")*{object}.userFloat("EffectiveArea")))'
         '/{object}.pt()'
     ),
+
+    # Number of matched conversions
+    objectPassesConversionVeto = '{object}.passConversionVeto()',
 
     objectPFChargedIso = cms.string('{object}.userIsolation("PfChargedHadronIso")'),
     objectPFNeutralIso = cms.string('{object}.userIsolation("PfNeutralHadronIso")'),
     objectPFPhotonIso  = cms.string('{object}.userIsolation("PfGammaIso")'),
-    
-    objectEffectiveArea2012Data = cms.string('{object}.userFloat("ea_comb_Data2012_iso04_kt6PFJ")'),
-    objectEffectiveAreaPHYS14 = cms.string('{object}.userFloat("EffectiveArea_HZZ4l2015")'),
+    objectPFPUChargedIso = cms.string('{object}.userIsolation("PfPUChargedHadronIso")'),
 
-    objectRho = cms.string('{object}.userFloat("rhoCSA14")'),
+    objectEffectiveArea2012Data = cms.string('{object}.userFloat("ea_comb_Data2012_iso04_kt6PFJ")'),
+    objectEffectiveAreaSpring15 = cms.string('{object}.userFloat("EffectiveArea")'),
+
+    objectRho = cms.string('{object}.userFloat("rho_fastjet")'),
     objectRelIso = cms.string("({object}.dr03TkSumPt()"
                "+max({object}.dr03EcalRecHitSumEt()-1.0,0.0)"
                "+{object}.dr03HcalTowerSumEt())/{object}.pt()"),
@@ -91,6 +102,10 @@ id = PSet(
     
     # How close is the nearest muon passing some basic quality cuts?
     objectNearestMuonDR = "electronClosestMuonDR({object_idx})",
+    # closest Z mass
+    objectNearestZMass = 'closestZElectron({object_idx},"")',
+    # lowest invariant mass
+    objectLowestMll = 'smallestMee({object_idx},"")',
 )
 
 energyCorrections = PSet(
@@ -128,21 +143,29 @@ supercluster = PSet(
     objectSCPreshowerEnergy = '{object}.superCluster().preshowerEnergy',
     objectSCPhiWidth = '{object}.superCluster().phiWidth',
     objectSCEtaWidth = '{object}.superCluster().etaWidth'   
+trigger_50ns = PSet(
+    objectMatchesSingleE = r'matchToHLTPath({object_idx},"HLT_Ele27_eta2p1_WPLoose_Gsf_v\\d+|HLT_Ele23_CaloIdL_TrackIdL_IsoVL_V\\d+",0.5)',
+    objectMatchesSingleE_leg1 = r'matchToHLTPath({object_idx},"HLT_Ele17_CaloIdL_TrackIdL_IsoVL_v\\d+",0.5)',
+    objectMatchesSingleE_leg2 = r'matchToHLTPath({object_idx},"HLT_Ele12_CaloIdL_TrackIdL_IsoVL_v\\d+",0.5)',
+    objectMatchesDoubleE = r'matchToHLTPath({object_idx},"HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v\\d+",0.5)',
+    objectMatchesSingleESingleMu = r'matchToHLTPath({object_idx},"HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v\\d+",0.5)',
+    objectMatchesSingleMuSingleE = r'matchToHLTPath({object_idx},"HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v\\d+",0.5)',
+    objectMatchesTripleE = r'matchToHLTPath({object_idx},"HLT_Ele16_Ele12_Ele8_CaloIdL_TrackIdL_v\\d+",0.5)',
+    objectMatchesDoubleESingleMu = r'matchToHLTPath({object_idx},"HLT_Mu8_DiEle12_CaloIdL_TrackIdL_v\\d+",0.5)',
+    objectMatchesDoubleMuSingleE = r'matchToHLTPath({object_idx},"HLT_DiMu9_Ele9_CaloIdL_TrackIdL_v\\d+",0.5)',
 )
 
-trigger = PSet(
-    objectMu17Ele8dZFilter  = 'matchToHLTFilter({object_idx}, "hltMu17Ele8dZFilter")', # HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v4-v6
-    objectMu17Ele8CaloIdTPixelMatchFilter  = 'matchToHLTFilter({object_idx}, "hltMu17Ele8CaloIdTPixelMatchFilter")',
-    objectL1NonIsoHLTNonIsoMu17Ele8PixelMatchFilter  = 'matchToHLTFilter({object_idx}, "hltL1NonIsoHLTNonIsoMu17Ele8PixelMatchFilter")',
-    objectMu17Ele8CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter  = 'matchToHLTFilter({object_idx}, "hltMu17Ele8CaloIdTCaloIsoVLTrkIdVLTrkIsoVLTrackIsoFilter")',
-    objectEle27WP80TrackIsoMatchFilter = 'matchToHLTFilter({object_idx}, "hltEle27WP80TrackIsoFilter")',
-    objectEle32WP70PFMT50PFMTFilter = 'matchToHLTFilter({object_idx},"hltEle32WP70PFMT50PFMTFilter")',
-    objectEle27WP80PFMT50PFMTFilter = 'matchToHLTFilter({object_idx},"hltEle27WP80PFMT50PFMTFilter")',
-    objectMatchesDoubleEPath       = r'matchToHLTPath({object_idx}, "HLT_Ele17_CaloIdL_CaloIsoVL_Ele8_CaloIdL_CaloIsoVL_v\\d+,HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v\\d+")',
-    objectMatchesMu17Ele8Path      = r'matchToHLTPath({object_idx}, "HLT_Mu17_Ele8_CaloIdL_v\\d+,HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_v\\d+,HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v\\d+")',
-    objectMatchesMu8Ele17Path      = r'matchToHLTPath({object_idx}, "HLT_Mu8_Ele17_CaloIdL_v\\d+,HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_v\\d+")',
-    objectMatchesMu17Ele8IsoPath      = r'matchToHLTPath({object_idx}, "HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v\\d+")',
-    objectMatchesMu8Ele17IsoPath      = r'matchToHLTPath({object_idx}, "HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v\\d+")',
-    objectMatchesSingleE    = r'matchToHLTPath({object_idx}, "HLT_Ele27_WP80_v\\d+,HLT_Ele27_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v\\d+,HLT_Ele32_CaloIdVT_CaloIsoT_TrkIdT_TrkIsoT_v\\d+")',
-    objectMatchesSingleEPlusMET = r'matchToHLTPath({object_idx},"HLT_Ele27_WP80_PFMET_MT50_v\\d+,HLT_Ele32_WP70_PFMT50_v\\d+")',
+trigger_25ns = PSet(
+    objectMatchesSingleE = r'matchToHLTPath({object_idx},"HLT_Ele32_eta2p1_WPLoose_Gsf_v\\d+",0.5)',
+    objectMatchesSingleE_leg1 = r'matchToHLTPath({object_idx},"HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v\\d+",0.5)',
+    objectMatchesSingleE_leg2 = r'matchToHLTPath({object_idx},"HLT_Ele12_CaloIdL_TrackIdL_IsoVL_v\\d+",0.5)',
+    objectMatchesDoubleE = r'matchToHLTPath({object_idx},"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v\\d+",0.5)',
+    objectMatchesSingleESingleMu = r'matchToHLTPath({object_idx},"HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v\\d+",0.5)',
+    objectMatchesSingleMuSingleE = r'matchToHLTPath({object_idx},"HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v\\d+",0.5)',
+    objectMatchesTripleE = r'matchToHLTPath({object_idx},"HLT_Ele16_Ele12_Ele8_CaloIdL_TrackIdL_v\\d+",0.5)',
+    objectMatchesDoubleESingleMu = r'matchToHLTPath({object_idx},"HLT_Mu8_DiEle12_CaloIdL_TrackIdL_v\\d+",0.5)',
+    objectMatchesDoubleMuSingleE = r'matchToHLTPath({object_idx},"HLT_DiMu9_Ele9_CaloIdL_TrackIdL_v\\d+",0.5)',
+ )
+
 )
+
