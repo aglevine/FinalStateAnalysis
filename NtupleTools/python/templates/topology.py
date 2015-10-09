@@ -47,8 +47,16 @@ pairs = PSet(
     object1_object2_ToMETDPhi_Ty1 = 'twoParticleDeltaPhiToMEt({object1_idx}, {object2_idx}, "type1")',
 )
 
-svfit = PSet(
-    object1_object2_SVfitMass = 'SVfit({object1_idx},{object2_idx})',
+extraJetPairs = PSet(
+    object1_object2_Mass = '? evt.jets.size()>{object2_idx} ? dijetMass({object1_idx},{object2_idx}) : -999'
+    #object1_object2_Mass = '? evt.jets.size()>({object2_idx}) ? subcand({object1}, {object2}).get.mass : -999',
+    #object1_object2_Mt = '? evt.jets.size()>({object2_idx}) ? subcand({object1}, {object2}).get.mt : -999',
+    #object1_object2_Pt = '? evt.jets.size()>({object2_idx}) ? subcand({object1}, {object2}).get.pt : -999',
+    #object1_object2_Eta = '? evt.jets.size()>({object2_idx}) ? subcand({object1}, {object2}).get.eta : -999',
+    #object1_object2_Phi = '? evt.jets.size()>({object2_idx}) ? subcand({object1}, {object2}).get.phi : -999',
+    #object1_object2_DR = '? evt.jets.size()>({object2_idx}) ? dR({object1}, {object2}) : -999',
+    #object1_object2_DPhi = '? evt.jets.size()>({object2_idx}) ? dPhi({object1}, {object2}) : -999',
+    #object1_object2_Rapidity = '? evt.jets.size()>({object2_idx}) ? subcand({object1}, {object2}).get.rapidity : -999',
 )
 
 finalstate = PSet(
@@ -92,6 +100,19 @@ vbf = PSet(
    vbfditaupt = 'vbfVariables("pt >30").ditaupt',
 )
 
+dijet = PSet(
+   object1_object2Mass = 'dijetVariables("pt >20&& abs(eta)<2.5",{object1_idx},{object2_idx}).mass',
+   object1_object2Deta = 'dijetVariables("pt >20&& abs(eta)<2.5",{object1_idx},{object2_idx}).deta',
+   object1_object2Dphi = 'dijetVariables("pt >20&& abs(eta)<2.5",{object1_idx},{object2_idx}).dphi',
+   object1_object2DR = 'dijetVariables("pt >20&& abs(eta)<2.5",{object1_idx},{object2_idx}).dr',
+   object1ptLead = 'dijetVariables("pt >20&& abs(eta)<2.5",{object1_idx},{object2_idx}).pt1',
+   object2ptSubLead = 'dijetVariables("pt >20&& abs(eta)<2.5",{object1_idx},{object2_idx}).pt2',
+   object1etaLead = 'dijetVariables("pt >20&& abs(eta)<2.5",{object1_idx},{object2_idx}).eta1',
+   object2etaSubLead = 'dijetVariables("pt >20&& abs(eta)<2.5",{object1_idx},{object2_idx}).eta2',
+   object1_object2Dijetrap = 'dijetVariables("pt >20&& abs(eta)<2.5",{object1_idx},{object2_idx}).dijetrapidity',
+   object1_object2dijetpt = 'dijetVariables("pt >20&& abs(eta)<2.5",{object1_idx},{object2_idx}).dijetpt',
+)
+
 
 extraJet = PSet(
     objectPt = '? evt.jets.size()>{object_idx} ? {object}.pt() : -999',
@@ -99,4 +120,8 @@ extraJet = PSet(
     objectPhi = '? evt.jets.size()>{object_idx} ? {object}.phi() : -999',
     objectPUMVA = '? evt.jets.size()>{object_idx} ? {object}.userFloat("pileupJetId:fullDiscriminant") : -999',
     objectBJetCISV = '? evt.jets.size()>{object_idx} ? {object}.bDiscriminator(\'pfCombinedInclusiveSecondaryVertexV2BJetTags\') : -999',
+)
+
+extraJetCandPairs = PSet(
+    object1_object2DR = '? evt.jets.size()>{object2_idx} ? dRtoJets({object1_idx}, {object2_idx}) : -999',
 )

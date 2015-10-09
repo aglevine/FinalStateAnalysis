@@ -21,6 +21,9 @@
    <version ClassVersion="10" checksum="2474259455"/>
   </class>
 
+  <class name="DiJetVariables"> 
+  </class>
+
   <class name="PATFinalState" ClassVersion="11">
    <version ClassVersion="11" checksum="2004223533"/>
    <version ClassVersion="10" checksum="2840789346"/>

@@ -12,6 +12,10 @@
 
 #include "FinalStateAnalysis/DataAlgos/interface/VBFVariables.h"
 #include "FinalStateAnalysis/DataAlgos/interface/VBFSelections.h"
+
+#include "FinalStateAnalysis/DataAlgos/interface/DiJetVariables.h"
+#include "FinalStateAnalysis/DataAlgos/interface/DiJetSelections.h"
+
 #include "TVector2.h"
 
 
@@ -138,6 +142,8 @@ class PATFinalState : public pat::PATObject<reco::LeafCandidate> {
         int j, const std::string& tagJ) const;
     /// Using the raw four vectors
     double dR(int i, int j) const;
+    /// Return dR between jet and daughter
+    double dRtoJets(unsigned int i, unsigned int j) const;
     /// Return the smallest dR between any two daughters
     double smallestDeltaR() const;
 
@@ -211,6 +217,10 @@ class PATFinalState : public pat::PATObject<reco::LeafCandidate> {
     /// Get the VBF selection variables.  The jet cuts are applied to the veto
     /// jets using dR of 0.3 away from the members.
     VBFVariables vbfVariables(const std::string& jetCuts) const;
+
+    //DiJet information for selected jet pairs (setup similarly to VBFVariables)
+    //Pass in jet cuts and ith and jth jets in event
+    DiJetVariables dijetVariables(const std::string& jetCuts, const unsigned int i, const unsigned int j) const;
 
     /// Check if two daughters are ordered in PT.
     /// This is equivalent to (daughter(i).pt > daughter(j).pt)

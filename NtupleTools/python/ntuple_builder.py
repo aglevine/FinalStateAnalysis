@@ -278,10 +278,15 @@ def make_ntuple(*legs, **kwargs):
             candidateVariables,
         )
 
+    jetcand_template = PSet(
+        templates.topology.extraJetCandPairs
+    )
+
     for i, leg in enumerate(legs):
         counts[leg] += 1
         # Check if we need to append an index (we have same flavor objects)
         label = leg
+        print "leg: " + str(leg)
         if legs.count(leg) > 1:
             label = leg + str(counts[leg])
         format_labels[label] = 'daughter(%i)' % i
@@ -290,13 +295,22 @@ def make_ntuple(*legs, **kwargs):
 
         # Get a PSet describing the branches for this leg
         leg_branches = leg_branch_templates[leg].replace(object=label)
+        
 
         # Add to the total config
         ntuple_config = PSet(
             ntuple_config,
             leg_branches,
         )
-
+        # add info with extra jets
+        for i in range(kwargs.get("nExtraJets", 0)):
+          jetLabel = "jet%i"%(i+1)
+          format_labels[jetLabel] = 'evt.jets.at(%i)' % i
+          format_labels[jetLabel + '_idx'] = '%i' % i
+          ntuple_config = PSet(
+              ntuple_config,
+              jetcand_template.replace(object1=label,object2=jetLabel)
+          )
 
     # If basic jet information is desired for a non-jet final state, put it in
     extraJetVariables = kwargs.get('extraJetVariables', PSet())
@@ -304,6 +318,13 @@ def make_ntuple(*legs, **kwargs):
         templates.topology.extraJet,
         extraJetVariables,
         )
+    dijet_template = PSet(
+        templates.topology.extraJetPairs,
+        templates.topology.dijet,
+    )
+    jetcand_template = PSet(
+        templates.topology.extraJetCandPairs
+    )
     for i in range(kwargs.get("nExtraJets", 0)):
         label = "jet%i"%(i+1)
         format_labels[label] = 'evt.jets.at(%i)' % i
@@ -313,6 +334,15 @@ def make_ntuple(*legs, **kwargs):
             ntuple_config,
             extra_jet_template.replace(object=label)            
             )
+        if int(i) > 0:
+          prevLabel = "jet%i"%(i)
+	  print label
+          print prevLabel
+          print format_labels
+          ntuple_config = PSet(
+              ntuple_config,
+              dijet_template.replace(object1=prevLabel,object2=label)
+              )
     
     dicandidateVariables = kwargs.get('dicandidateVariables',PSet())
     dicandidate_template = PSet(
@@ -322,6 +352,8 @@ def make_ntuple(*legs, **kwargs):
 
     # Now we need to add all the information about the pairs
     for leg_a, leg_b in itertools.combinations(object_labels, 2):
+        print "leg a:"
+        print leg_a
         ntuple_config = PSet(
             ntuple_config,
             dicandidate_template.replace(object1=leg_a, object2=leg_b),
@@ -424,6 +456,8 @@ def make_ntuple(*legs, **kwargs):
                 )
 
     # Now apply our formatting operations
+    print "format_labels"
+    print format_labels
     format(output, **format_labels)
 #    return LHEFilter*output
 

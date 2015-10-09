@@ -186,6 +186,8 @@ def produce_final_states(process, daughter_collections, output_commands,
     for object in object_types:
         # Define some basic selections for building combinations
         cuts = [crossCleaning]  # basic x-cleaning
+        print "PAT%sFinalStateProducer" % object[0]
+        print cuts
 
         producer = cms.EDProducer(
             "PAT%sFinalStateProducer" % object[0],

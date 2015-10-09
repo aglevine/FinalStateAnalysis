@@ -203,16 +203,25 @@ def datasets_from_das(args):
             passes_wildcard = False
             name_to_use = 'data_' + '_'.join(dataset.split('/'))
             for pattern in data_patterns:
+                print pattern
                 if args.dastuple: # check json for shorthand, links to full dataset name
+                    print "args.dastuple"
                     with open(args.dastuple) as tuple_file:
                         tuple_info = json.load(tuple_file)
                         matching_datasets = []
                         for shorthand, fullname in tuple_info.iteritems():
+                            print "fullname: " + str(fullname)
+                            print "shorthand: " + str(shorthand)
+                            print "dataset:" + str(dataset)
                             if fullname in dataset:
+                                print "fullname in dataset"
+                                print "pattern: " + str(pattern)
                                 if fnmatch.fnmatchcase(shorthand, pattern):
                                     passes_wildcard = True
                                     name_to_use = shorthand
                 else: # check das directly
+                    print "dataset: " + str(dataset)
+                    print "pattern: " + str(pattern)
                     if fnmatch.fnmatchcase(dataset, pattern):
                         passes_wildcard = True
             passes_filter = passes_wildcard and passes_filter

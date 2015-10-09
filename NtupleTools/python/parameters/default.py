@@ -34,15 +34,15 @@ parameters = {
         'g': 'abs(superCluster().eta()) < 3.0 & pt > 10',
         # remove jets that are close to leptons
         'j' : {
-            'selection' : 'pt>20 & abs(eta) < 2.5 & userFloat("idLoose")',
-            'e': {
-                'selection' : 'pt>10&&userInt("CBIDLoose")>0&&(chargedHadronIso()+max(0.0,neutralHadronIso()+photonIso()-userFloat("rho_fastjet")*userFloat("EffectiveArea")))/pt()<0.2',
-                'deltaR' : 0.3,
-                },
-            'm': {
-                'selection' : 'pt>10&&isLooseMuon&&(chargedHadronIso()+max(photonIso()+neutralHadronIso()-0.5*puChargedHadronIso,0.0))/pt()<0.2',
-                'deltaR' : 0.3,
-                },
+            #'selection' : 'pt>20 & abs(eta) < 2.5 & userFloat("idLoose")',
+            #'e': {
+            #    'selection' : 'pt>10&&userInt("CBIDLoose")>0&&(chargedHadronIso()+max(0.0,neutralHadronIso()+photonIso()-userFloat("rho_fastjet")*userFloat("EffectiveArea")))/pt()<0.2',
+            #    'deltaR' : 0.3,
+            #    },
+            #'m': {
+            #    'selection' : 'pt>10&&isLooseMuon&&(chargedHadronIso()+max(photonIso()+neutralHadronIso()-0.5*puChargedHadronIso,0.0))/pt()<0.2',
+            #    'deltaR' : 0.3,
+            #    },
             },
 
     },

@@ -20,6 +20,8 @@
 
 #include "FinalStateAnalysis/DataAlgos/interface/VBFVariables.h"
 
+#include "FinalStateAnalysis/DataAlgos/interface/DiJetVariables.h"
+
 #include "FinalStateAnalysis/DataFormats/interface/Macros.h"
 
 namespace {
@@ -44,6 +46,9 @@ namespace {
 
     // For the VBF variables
     VBFVariables dummyVBFVars;
+
+    //DiJet variables
+    DiJetVariables dummyDiJetVars;
 
     // shared pointer wrapper class
     PATFinalStateProxy proxyDummy;

@@ -355,6 +355,12 @@ PATFinalState::dR(int i, int j) const {
 }
 
 double
+PATFinalState::dRtoJets(unsigned int i, unsigned int j) const {
+  return reco::deltaR(daughterUserCandP4(i, ""),
+      evt()->jets().at(j).p4());
+}
+
+double
 PATFinalState::smallestDeltaR() const {
   double smallestDeltaR = 1e9;
   for (size_t i = 0; i < numberOfDaughters()-1; ++i) {
@@ -781,6 +787,16 @@ VBFVariables PATFinalState::vbfVariables(const std::string& jetCuts) const {
   const reco::Candidate::LorentzVector& metp4 = met()->p4();
   // todo cache this
   return computeVBFInfo(hardScatter, metp4, jets);
+}
+
+DiJetVariables PATFinalState::dijetVariables(const std::string& jetCuts, const unsigned int i, const unsigned int j) const {
+  std::vector<const reco::Candidate*> hardScatter = this->daughters();
+  std::vector<const reco::Candidate*> jets = this->vetoJets(0.3, jetCuts);
+  const reco::Candidate::LorentzVector& metp4 = met()->p4(); 
+  const unsigned int firstJet=i;
+  const unsigned int secondJet=j;
+  // todo cache this
+  return computeDiJetInfo(hardScatter, metp4, jets, firstJet, secondJet);
 }
 
 bool PATFinalState::orderedInPt(int i, int j) const {

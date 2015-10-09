@@ -188,6 +188,7 @@ def replace_str(string_obj, **replacements):
     # Sort the strings to replace by descending length
     for substr in _descending_length(replacements.keys()):
         output = output.replace(substr, replacements[substr])
+    print output
     return output
 
 def replace(cfg_object, **replacements):
