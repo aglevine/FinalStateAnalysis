@@ -518,7 +518,6 @@ double PATFinalState::mtMET(int i, const std::string& metTag) const {
 }
 
 double PATFinalState::mtMET(int i, const std::string& tag,
-<<<<<<< HEAD
                             const std::string& metName, const std::string& metTag, 
                             const int applyPhiCorr) const {
   return mtMET(i, tag, metTag);
