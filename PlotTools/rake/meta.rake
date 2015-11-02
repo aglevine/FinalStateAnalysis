@@ -79,6 +79,7 @@ namespace :meta do
     else
       # In MC, we can get the effective lumi from xsec and #events.
       file sample + '.lumicalc.sum' => sample + '.meta.json' do |t|
+      
         sh "get_mc_lumi.py --sqrts #{sqrts} #{sample} `cat #{t.prerequisites} | extract_json.py n_evts` > #{t.name}"
       end
     end

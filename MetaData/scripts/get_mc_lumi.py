@@ -27,15 +27,15 @@ if __name__ == "__main__":
                         "Default 0 - automatic by CMSSW release")
     args = parser.parse_args()
 
-    if args.sqrts == 0:
-        # Default case
-        import FinalStateAnalysis.MetaData.datadefs as datadefs
-    elif args.sqrts == 7:
-        sys.stderr.write("Using 7 TeV data definitions\n")
-        import FinalStateAnalysis.MetaData.data7TeV as datadefs
-    elif args.sqrts == 8:
-        sys.stderr.write("Using 8 TeV data definitions\n")
-        import FinalStateAnalysis.MetaData.data8TeVNew as datadefs
+#    if args.sqrts == 0:
+#        # Default case
+#        import FinalStateAnalysis.MetaData.datadefs as datadefs
+#    elif args.sqrts == 7:
+#        sys.stderr.write("Using 7 TeV data definitions\n")
+#        import FinalStateAnalysis.MetaData.data7TeV as datadefs
+#    elif args.sqrts == 8:
+#        sys.stderr.write("Using 8 TeV data definitions\n")
+#        import FinalStateAnalysis.MetaData.data8TeVNew as datadefs
 
     #sample_xsec = datadefs.datadefs[args.sample]['x_sec']/picobarns
 

@@ -9,6 +9,7 @@ Author: Evan K. Friis
 '''
 
 import FWCore.ParameterSet.Config as cms
+import math
 from FinalStateAnalysis.Utilities.cfgtools import PSet
 
 # Vetos on extra stuff in the event

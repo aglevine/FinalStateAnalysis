@@ -62,6 +62,7 @@ if __name__ == "__main__":
     log.info("Extracting meta info from %i files", len(files))
 
     total_events = 0
+    summedWeights = 0
     run_lumis = {}
 
     for file in files:
@@ -74,6 +75,7 @@ if __name__ == "__main__":
         for entry in xrange(tree.GetEntries()):
             tree.GetEntry(entry)
             total_events += tree.nevents
+            summedWeights += tree.summedWeights
             # We only care about this if we are building the lumimask
             if args.lumimask:
                 run_lumi = (tree.run, tree.lumi)
@@ -86,6 +88,7 @@ if __name__ == "__main__":
 
     output = {
         'n_evts': total_events,
+        'summedWeights': summedWeights
     }
     if args.lumimask:
         output['lumi_mask'] = json_summary(run_lumis)
