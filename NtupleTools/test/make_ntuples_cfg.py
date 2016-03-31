@@ -57,6 +57,7 @@ skipMET=0      - Don't do MET corrections and systematics (good way to reduce
 
 import FWCore.ParameterSet.Config as cms
 import os
+import subprocess
 import copy
 from FinalStateAnalysis.NtupleTools.hzg_sync_mod import set_passthru
 from FinalStateAnalysis.NtupleTools.ntuple_builder import \
@@ -430,6 +431,17 @@ if not bool(options.skipMET):
     isData = not options.isMC
     process.load ("CondCore.DBCommon.CondDBCommon_cfi")
     from CondCore.DBCommon.CondDBSetup_cfi import *
+    #fix to relative path issue when acessing sqlite database file
+    #subprocess.call(["ls ../../../..$CMSSW_BASE/src/FinalStateAnalysis/NtupleTools/data/"], shell=True)
+    currentDir = subprocess.check_output(["pwd"])
+    print currentDir
+    subLevels = currentDir.count("/")
+    i = 0
+    jecDBStr = ""
+    while (i<subLevels):
+       jecDBStr = jecDBStr+"../"
+       i = i +1
+    jecDBStr = "sqlite:" + jecDBStr + "/afs/hep.wisc.edu/cms/aglevine/FSA_MiniAod/CMSSW_7_6_3/src/FinalStateAnalysis/NtupleTools/data/Fall15_25nsV2_{0}.db".format('MC' if options.isMC else 'DATA')
     process.jec = cms.ESSource("PoolDBESSource",
       DBParameters = cms.PSet(
         messageLevel = cms.untracked.int32(0)
@@ -442,8 +454,9 @@ if not bool(options.skipMET):
               label  = cms.untracked.string('AK4PFchs')
               )
       ),
-      connect = cms.string('sqlite:../data/Fall15_25nsV2_{0}.db'.format('MC' if options.isMC else 'DATA'))
+      connect = cms.string(jecDBStr)
     )
+
     process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')
     runMetCorAndUncFromMiniAOD(process,
                                jetColl=fs_daughter_inputs['jets'],
